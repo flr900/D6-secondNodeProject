@@ -1,10 +1,11 @@
-/* eslint-disable camelcase */
 import {
   Column,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
   Entity,
+  OneToMany,
 } from 'typeorm';
+import Exibition from './Exibition';
 
 @Entity('products')
 class Product {
@@ -13,6 +14,9 @@ class Product {
 
   @Column()
   name: string;
+
+  @Column()
+  alias: string;
 
   @Column()
   host: string;
@@ -34,6 +38,9 @@ class Product {
 
   @UpdateDateColumn()
   created_at: Date;
+
+  @OneToMany(() => Exibition, exibition => exibition.product)
+  exibitions: Exibition[];
 }
 
 export default Product;

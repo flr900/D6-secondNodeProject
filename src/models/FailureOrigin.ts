@@ -5,13 +5,16 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity('roles')
-class Role {
+@Entity('failures_origin')
+class FailureOrigin {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
-  role_name: string;
+  type: string;
+
+  @Column()
+  origin: string;
 
   @UpdateDateColumn()
   updated_at: Date;
@@ -20,4 +23,4 @@ class Role {
   created_at: Date;
 }
 
-export default Role;
+export default FailureOrigin;

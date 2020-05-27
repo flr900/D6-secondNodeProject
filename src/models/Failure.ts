@@ -1,29 +1,28 @@
-/* eslint-disable camelcase */
 import {
   Column,
   Entity,
   PrimaryGeneratedColumn,
   ManyToOne,
   UpdateDateColumn,
-} from "typeorm";
-import Report from "./Report";
-import Failure_Origin from "./Failure_Origin";
+} from 'typeorm';
+import Report from './Report';
+import Failure_Origin from './FailureOrigin';
 
-@Entity("failures")
+@Entity('failures')
 class Failure {
-  @PrimaryGeneratedColumn("uuid")
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
-  type: "incident" | "ocurrence";
+  type: 'incident' | 'ocurrence';
 
   @Column()
   time: Date;
 
-  @Column("time with time zone")
+  @Column('time with time zone')
   duration: Date;
 
-  @ManyToOne(() => Report, (report) => report.failures)
+  @ManyToOne(() => Report, report => report.failures)
   report: Report;
 
   @ManyToOne(() => Failure_Origin)
@@ -39,13 +38,13 @@ class Failure {
   description: string;
 
   @Column()
-  failure_category: "X" | "A" | "B" | "C";
+  failure_category: 'X' | 'A' | 'B' | 'C';
 
   @UpdateDateColumn()
-  Updated_at: string;
+  updated_at: string;
 
   @UpdateDateColumn()
-  Created_at: string;
+  created_at: string;
 }
 
 export default Failure;

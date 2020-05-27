@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import {
   Column,
   PrimaryGeneratedColumn,
@@ -7,20 +6,33 @@ import {
   OneToMany,
   ManyToMany,
   JoinTable,
-} from "typeorm";
-import Member from "./Member";
-import Failure from "./Failure";
+  OneToOne,
+  JoinColumn,
+} from 'typeorm';
+import Member from './Member';
+import Failure from './Failure';
+import Exibition from './Exibition';
 
-@Entity("reports")
+@Entity('reports')
 class Report {
-  @PrimaryGeneratedColumn("uuid")
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
   exibition_id: string;
 
-  @OneToMany(() => Failure, (failure) => failure.id)
+  @OneToOne(() => Exibition)
+  @JoinColumn()
+  exibition: Exibition;
+
+  @Column()
+  failures_id: string;
+
+  @OneToMany(() => Failure, failure => failure.id)
   failures: Failure[];
+
+  @Column()
+  members_id: string;
 
   @ManyToMany(() => Member)
   @JoinTable()

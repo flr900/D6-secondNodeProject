@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import {
   Column,
   PrimaryGeneratedColumn,
@@ -6,30 +5,29 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
-  OneToOne,
-} from "typeorm";
+} from 'typeorm';
 
-import Product from "./Product";
-import Admin from "./Admin";
-import Role from "./Role";
+import Product from './Product';
+import Admin from './Admin';
+import Role from './Role';
 
-@Entity("exibitions")
+@Entity('exibitions')
 class Exibition {
-  @PrimaryGeneratedColumn("uuid")
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
   product_id: string;
 
+  @ManyToOne(() => Product, product => product.exibitions)
+  @JoinColumn({ name: 'product_id' })
+  product: Product;
+
   @Column()
   admin_id: string;
 
-  @OneToOne(() => Product)
-  @JoinColumn({ name: "product_id" })
-  product: Product;
-
   @ManyToOne(() => Admin)
-  @JoinColumn({ name: "role_id" })
+  @JoinColumn({ name: 'role_id' })
   role: Role;
 
   @Column()
