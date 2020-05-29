@@ -10,6 +10,6 @@ createConnection(<ConnectionOptions>{
   entities: [entitiesPath],
   migrations: [migrationsPath],
   cli: {
-    migrationsDir: path.resolve('migrations'),
+    migrationsDir: path.resolve(__dirname, 'migrations'),
   },
 }).catch(error => console.log(error));
