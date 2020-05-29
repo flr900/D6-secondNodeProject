@@ -27,6 +27,7 @@ export default class AdminMigration1590618068238 implements MigrationInterface {
             name: 'email',
             type: 'varchar',
             isNullable: false,
+            isUnique: true,
           },
           {
             name: 'password',
