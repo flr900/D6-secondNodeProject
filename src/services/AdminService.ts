@@ -17,6 +17,7 @@ export default class AdminService {
     role_id,
   }: AdminRequest): Promise<Admin> {
     const adminsRepository = getRepository(Admin);
+    console.log('lala');
     const checkIfAdminExists = await adminsRepository.findOne({
       where: { email },
     });
