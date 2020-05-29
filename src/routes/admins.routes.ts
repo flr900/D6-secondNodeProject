@@ -1,10 +1,20 @@
 import { Router } from 'express';
+import { getRepository } from 'typeorm';
 import AdminService from '../services/AdminService';
+import Admin from '../models/Admin';
 
 const adminsRouter = Router();
 
-adminsRouter.get('/', (req, res) => {
-  return res.json({ message: 'Alo admin' });
+adminsRouter.get('/', async (req, res) => {
+  const adminsRepository = getRepository(Admin);
+
+  const admins = await adminsRepository.find();
+
+  const adminsParsed = admins.map(admin => {
+    delete admin.password;
+    return admin;
+  });
+  return res.json(adminsParsed);
 });
 
 adminsRouter.post('/', async (req, res) => {
@@ -23,6 +33,20 @@ adminsRouter.post('/', async (req, res) => {
     delete user.password;
 
     return res.json(user);
+  } catch (err) {
+    return res.status(400).json({ error: err.message });
+  }
+});
+
+adminsRouter.delete('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const deleteAdmin = new AdminService();
+
+    const response = await deleteAdmin.remove(id);
+
+    return res.json({ message: response });
   } catch (err) {
     return res.status(400).json({ error: err.message });
   }

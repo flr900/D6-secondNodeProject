@@ -38,4 +38,18 @@ export default class AdminService {
 
     return admin;
   }
+
+  public async remove(id: string): Promise<string> {
+    const adminsRepository = getRepository(Admin);
+
+    const checkIfAdminExists = await adminsRepository.findOne(id);
+
+    if (!checkIfAdminExists) {
+      throw new Error('Invalid ID');
+    }
+
+    await adminsRepository.delete(id);
+
+    return 'user deleted';
+  }
 }

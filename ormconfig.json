@@ -4,7 +4,7 @@
   "port": "5433",
   "username": "postgres",
   "password": "docker",
-  "database": "postgres",
+  "database": "relatorio-operacional",
   "entities": ["./src/models/*.ts"],
   "migrations": ["./src/database/migrations/*.ts"],
   "cli": {
