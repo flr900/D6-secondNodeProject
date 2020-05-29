@@ -1,17 +1,18 @@
 import { Router } from 'express';
+import AuthService from '../services/AuthService';
 
 const sessionsRouter = Router();
 
-sessionsRouter.post('/', (req, res) => {
-  // const { email, password } = req.body;
+sessionsRouter.post('/', async (req, res) => {
+  const { email, password } = req.body;
 
-  // const auth = new AuthService();
+  const auth = new AuthService();
 
-  // const { user, token } = auth.execute({ email, password });
+  const { admin, token } = await auth.execute({ email, password });
 
-  // delete user.password;
+  delete admin.password;
 
-  return res.json({ hello: 'World' });
+  return res.json({ admin, token });
 });
 
 export default sessionsRouter;
