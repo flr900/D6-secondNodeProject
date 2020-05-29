@@ -1,11 +1,11 @@
-import { createConnection, ConnectionOptions } from 'typeorm';
-import path from 'path';
+import { createConnection } from 'typeorm';
+// import path from 'path';
 
-const entitiesPath = `${path.resolve(__dirname, '..', 'models')}/*.*`;
-const migrationsPath = `${path.resolve(__dirname, 'migrations')}/*.*`;
-const migrationsDir = `${path.resolve(__dirname, 'migrations')}`;
-console.log(migrationsDir);
-console.log(entitiesPath);
+// const entitiesPath = `${path.resolve(__dirname, '..', 'models')}/*.*`;
+// const migrationsPath = `${path.resolve(__dirname, 'migrations')}/*.*`;
+// const migrationsDir = `${path.resolve(__dirname, 'migrations')}`;
+// console.log(migrationsDir);
+// console.log(entitiesPath);
 createConnection();
 // createConnection(<ConnectionOptions>{
 //   name: 'default',
