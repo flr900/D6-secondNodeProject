@@ -3,6 +3,7 @@ import { sign } from 'jsonwebtoken';
 import { compare } from 'bcryptjs';
 import Admin from '../models/Admin';
 import authConfig from '../config/auth';
+import AppError from '../errors/AppErrors';
 
 interface AuthRequest {
   email: string;
@@ -27,13 +28,13 @@ export default class AuthService {
     });
 
     if (!admin) {
-      throw new Error('Theese credentials are invalid');
+      throw new AppError('Theese credentials are invalid');
     }
 
     const matchPassword = await compare(password, admin.password);
 
     if (!matchPassword) {
-      throw new Error('Theese credentials are invalid');
+      throw new AppError('Theese credentials are invalid');
     }
 
     const token = sign({}, authConfig.jwt.secret, {

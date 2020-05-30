@@ -1,5 +1,7 @@
-import { getRepository } from 'typeorm';
+import { getRepository, Repository } from 'typeorm';
+import { isUuid } from 'uuidv4';
 import Member from '../models/Member';
+import AppError from '../errors/AppErrors';
 
 interface MemberRequest {
   full_name: string;
@@ -8,15 +10,42 @@ interface MemberRequest {
 }
 
 export default class MemberService {
+  private async checkIfExists(
+    repository: Repository<Member>,
+    uniqueKey: string,
+    message: string,
+    type = true,
+  ): Promise<void> {
+    try {
+      let checkIfExists;
+
+      if (isUuid(uniqueKey)) {
+        checkIfExists = await repository.findOne({
+          where: { id: uniqueKey },
+        });
+      } else {
+        checkIfExists = await repository.findOne({
+          where: { role_name: uniqueKey },
+        });
+      }
+
+      if (Boolean(checkIfExists) === type) {
+        throw new Error(message);
+      }
+      return;
+    } catch (err) {
+      throw new AppError(err.message);
+    }
+  }
+
   public async create({ full_name, role_id }: MemberRequest): Promise<Member> {
     const memberRepository = getRepository(Member);
-    const checkIfMemberExists = await memberRepository.findOne({
-      where: { full_name },
-    });
+    await this.checkIfExists(
+      memberRepository,
+      full_name,
+      'Member already exists!',
+    );
 
-    if (checkIfMemberExists) {
-      throw new Error('This member already exists');
-    }
     const member = memberRepository.create({ full_name, role_id });
     await memberRepository.save(member);
 
@@ -32,12 +61,7 @@ export default class MemberService {
   public async remove(id: string): Promise<string> {
     const memberRepository = getRepository(Member);
 
-    const checkIfMemberExists = await memberRepository.findOne({
-      where: { id },
-    });
-    if (!checkIfMemberExists) {
-      throw new Error('This member doesn´t exists');
-    }
+    await this.checkIfExists(memberRepository, id, 'id not valid!', false);
 
     await memberRepository.delete(id);
 
@@ -50,13 +74,9 @@ export default class MemberService {
     id,
   }: MemberRequest & { id: string }): Promise<string> {
     const memberRepository = getRepository(Member);
-    const checkIfMemberExists = await memberRepository.findOne({
-      where: { full_name },
-    });
 
-    if (checkIfMemberExists) {
-      throw new Error('This member already exists');
-    }
+    await this.checkIfExists(memberRepository, id, 'Member don´t exist!');
+
     await memberRepository.update(id, { full_name, role_id });
 
     return 'Member Updated';
