@@ -27,7 +27,7 @@ export default class RoleService {
     return roles;
   }
 
-  public async remove(id: string): Promise<void> {
+  public async remove(id: string): Promise<string> {
     const rolesRepository = getRepository(Role);
 
     const checkIfRoleExists = await rolesRepository.findOne({
@@ -39,5 +39,7 @@ export default class RoleService {
     }
 
     await rolesRepository.delete(id);
+
+    return 'Role deleted';
   }
 }

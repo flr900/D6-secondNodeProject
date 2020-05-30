@@ -13,7 +13,7 @@ interface AuthResponse {
   token: string;
 }
 
-class AuthService {
+export default class AuthService {
   public async execute({
     email,
     password,
@@ -47,5 +47,3 @@ class AuthService {
     };
   }
 }
-
-export default AuthService;
