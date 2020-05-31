@@ -11,7 +11,6 @@ rolesRouter.post('/', async (req, res) => {
   const role = await roleService.create({
     role_name,
   });
-  console.log(role);
   return res.json(role);
 });
 

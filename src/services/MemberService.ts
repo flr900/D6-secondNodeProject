@@ -25,7 +25,7 @@ export default class MemberService {
         });
       } else {
         checkIfExists = await repository.findOne({
-          where: { role_name: uniqueKey },
+          where: { full_name: uniqueKey },
         });
       }
 

@@ -39,17 +39,13 @@ adminsRouter.post('/', async (req, res) => {
 });
 
 adminsRouter.delete('/:id', async (req, res) => {
-  try {
-    const { id } = req.params;
+  const { id } = req.params;
 
-    const deleteAdmin = new AdminService();
+  const deleteAdmin = new AdminService();
 
-    const response = await deleteAdmin.remove(id);
+  const response = await deleteAdmin.remove(id);
 
-    return res.json({ message: response });
-  } catch (err) {
-    return res.status(400).json({ error: err.message });
-  }
+  return res.json({ message: response });
 });
 
 export default adminsRouter;
